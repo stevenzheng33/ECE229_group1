@@ -1,5 +1,8 @@
 import streamlit as st
+import plotly.express as px
 import pandas as pd
+from urllib.error import URLError
+import plotly.graph_objects as go
 
 st.title('Heart Disease Analysis')
 df = pd.read_csv('death_causes.csv')
@@ -15,6 +18,68 @@ st.line_chart(df[['Heart disease', 'Cancer ', 'Unintentional injuries',
        'CLRD', 'Stroke', "Alzheimer's disease", 'Diabetes']])
 
 
+
+df = pd.read_csv('death_causes.csv')
+df = df.set_index('Year')
+# st.write("This is a dataframe displaying cause of deaths")
+# st.write(df)
+# st.bar_chart(df['Heart disease'])
+
+def plot_distribution(col):
+    df2 = pd.read_csv("heart_2020_cleaned.csv")
+def radar_chart(df):
+    theta = ['AlcoholDrinking', 'MentalHealth']
+    fig = px.line_polar(df, r=[1, 2], theta=theta, line_close=True)
+    st.write(fig)
+
+
+try:
+    df = pd.read_csv("./heart_2020_cleaned.csv")
+    # df["HeartDisease"].replace({'No':0, 'Yes':1}, inplace=True)
+    # radar_chart(df)
+
+    
+    col1,b1, col2,b2, col3 = st.columns([1,0.2,1,0.2,1])
+    fig1, b1,fig2 = st.columns([1,0.4,2])
+    #print(len(df["HeartDisease"] == 0))
+    #print(len(df["HeartDisease"] == 1))
+    metrics =['Smoking',
+    'AlcoholDrinking',
+    'Stroke',
+    'DiffWalking',
+    'Sex',
+    'AgeCategory',
+    'Race',
+    'Diabetic',
+    'PhysicalActivity',
+    'GenHealth',
+    'Asthma',
+    'KidneyDisease',
+    'SkinCancer',
+    'BMI']
+    
+    cols = col1.selectbox('Factor metric to view', metrics)
+
+    fig = px.histogram(df, x=cols, color="HeartDisease",width=500, height=500)
+
+    fig1.write(fig)
+
+    # cols1 = col2.selectbox('Metric1 to view for correlation', metrics)
+    # cols2 = col3.selectbox('Metric2 to view for correlation', metrics)
+
+    # fig_2 = px.scatter(df, x=cols1,y=cols2, color="HeartDisease",width=400, height=250)
+
+
+    # fig2.write(fig_2)
+except URLError as e:
+    st.error(
+        """
+        **This demo requires internet access.**
+
+        Connection error: %s
+    """
+        % e.reason
+    )
 
 
 
