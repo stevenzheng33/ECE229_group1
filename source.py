@@ -3,7 +3,7 @@ import plotly.express as px
 import pandas as pd
 from urllib.error import URLError
 import plotly.graph_objects as go
-
+import model
 st.title('Heart Disease Analysis')
 df = pd.read_csv('death_causes.csv')
 df = df.set_index('Year')
@@ -83,73 +83,94 @@ except URLError as e:
 
 
 
-m = st.markdown("""
-<style>
-div.stButton > button:first-child {
-    background-color: #FF4B4B;
-    height: 8em;
-    width: 12em; 
-}
-</style>""", unsafe_allow_html=True)
+# m = st.markdown("""
+# <style>
+# div.stButton > button:first-child {
+#     background-color: #FF4B4B;
+#     height: 8em;
+#     width: 12em; 
+# }
+# </style>""", unsafe_allow_html=True)
 
 b = st.button("CDC Heart Disease Information")
 
-BMI = st.number_input('BMI')
 
-smoking = st.selectbox(
+
+form = st.form(key='my_form')
+bmi = form.number_input('BMI')
+smoking = form.selectbox(
      'Smoking',
      ('','True', 'False'))
-alcohol_drinking = st.selectbox(
+alcohol = form.selectbox(
      'Alcohol Drinking',
      ('','True', 'False'))
-
-stroke = st.selectbox(
+stroke = form.selectbox(
      'stroke',
      ('','True', 'False'))
-diff_walking = st.selectbox(
+walking = form.selectbox(
      'Difficult Walking',
      ('','True', 'False'))
-sex = st.selectbox(
+sex = form.selectbox(
      'Gender',
      ('','Male', 'Female'))
 
-age_category = st.number_input('Age')
+age = form.number_input('Age')
 
-race  = st.selectbox(
+race = form.selectbox(
      'Race',
      ('','White', 'Black', 'Asian', 'American Indian/Alaskan Native',
        'Other', 'Hispanic'))
 
-diabetic = st.selectbox(
+diabetic = form.selectbox(
      'Diabetic',
      ('','True', 'False'))
 
-physical_activity = st.selectbox(
+activity = form.selectbox(
      'Physical Activity',
      ('','True', 'False'))
 
-general_health = st.selectbox(
+health = form.selectbox(
     'General Health',
     ('','Very good', 'Fair', 'Good', 'Poor', 'Excellent')
 )
-sleeptime = st.number_input('SleepTime (Hours)')
+sleep = form.number_input('SleepTime (Hours)')
 
-asthma = st.selectbox(
+asthma = form.selectbox(
      'Asthma',
      ('','True', 'False'))
 
-kidney_disease = st.selectbox(
+kidney = form.selectbox(
      'Kidney Disease',
      ('','True', 'False'))
 
-skin_cancer = st.selectbox(
+skin = form.selectbox(
     'Skin Cancer',
      ('','True', 'False'))
+submit_button = form.form_submit_button(label='Submit')
+if submit_button:
+    user_data = {
+                'HeartDisease'      :'Yes',
+                'BMI'                :bmi,
+                'Smoking'            :smoking,
+                'AlcoholDrinking'    :alcohol,
+                'Stroke'            :stroke,
+                'DiffWalking'        :walking,
+                'Sex'                :sex,
+                'AgeCategory'        :model.age_tranform(age),
+                'Race'                :race,
+                'Diabetic'            :diabetic,
+                'PhysicalActivity'    :activity,
+                'GenHealth'            :health,
+                'SleepTime'            :sleep,
+                'Asthma'            :asthma,
+                'KidneyDisease'        :kidney,
+                'SkinCancer'        :skin,}
+
+    risk = model.model(user_data)
+    
+    st.write(f'Your predicted risk for Heart Disease is {1-risk[1]}.')
 
 
-
-if st.button("Predict"):
-    st.write("123")
 
 
 
