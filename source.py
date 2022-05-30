@@ -62,6 +62,14 @@ line_plot()
 
 
 toc.subheader("Effect of Features")
+st.write('Age is the most important factor of getting heart disease. Two times more crucial than\
+        the second most important factor Diabetic. As we can see in the\
+        previous chart, after age 60 the counts of getting heart disease is skyrocketing increasing.\
+        Hence, it is recommend to do medical checkups after 60.')
+
+
+st.write('Diabetic, Stroke, and DiffWalking are also the crucial factors of getting heart disease.\
+        Having these three diseases gives you four to six times more chance to having heart disease.')
 def bar_plot():
     try:
         df = pd.read_csv("./heart_2020_cleaned.csv")
