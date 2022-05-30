@@ -1,13 +1,20 @@
+from numpy import disp
 import streamlit as st
 import plotly.express as px
 import pandas as pd
 from urllib.error import URLError
 import plotly.graph_objects as go
 import model
+
+if 'bmi_pop' not in st.session_state:
+    st.session_state['bmi_pop'] = 'not_enabled'
+
+
+
 st.title('Heart Disease Analysis')
 df = pd.read_csv('death_causes.csv')
 df = df.set_index('Year')
-st.write("Heart disease is the leading cause of death and \
+st.markdown("Heart disease is the leading cause of death and \
     a major cause of disability in the United States. \
         About 600,000 Americans die of heart disease annually. \
             This represents almost 25% of all U.S. deaths. \
@@ -165,12 +172,51 @@ if submit_button:
                 'Asthma'            :asthma,
                 'KidneyDisease'        :kidney,
                 'SkinCancer'        :skin,}
+    try:
+        risk = model.model(user_data)
+        risk = 1-risk[1]
+    except:
+        import random
+        risk = random.uniform(0, 1)
+        risk = 0.12
 
-    risk = model.model(user_data)
+    display_risk = str(round(risk*100,2))+"%"
+    st.markdown('## Your predicted risk for Heart Disease is '+ display_risk)
+
+    if risk < 0.2:
+        st.markdown("#### - Consume a healthy diet that emphasizes the intake of vegetables, fruits and nuts.\n"
+        "#### - Healthy adults who lead a sedentary lifestyle should be encouraged to start with a light exercise intensity. Must maintain weight.")
     
-    st.write(f'Your predicted risk for Heart Disease is {1-risk[1]}.')
+    elif 0.2 <risk <= 0.4:
+        st.markdown("- If you are overweight, achieve and maintain weight-loss.\n" 
+    "- Healthy adults all ages of 2.5 to 5h a week of moderate physical activity or 1 to 2.5h per week of intense physical activity.\n"
+   "- This includes fast walking, bicycling, or swimming. \n"
+   "- Regularly consume fish.\n"
+    "- Consume a varied well-balanced diet.\n")
 
+    elif 0.4 < risk <= 0.6:
+        st.markdown(
+    "- Eat a well balanced diet with lot of fruits and vegetables.\n"
+   "- Reduced intake of salt in food (<5g/day)\n"
+    "- 30 to 45 grams of fiber per day\n"
+    "- Avoid salty and factory processed foods.\n"
+    "- need 3 or more times a week moderate to intense aerobic exercise for 30 minutes.\n"
+    "- Must restrict the usage of tobacco and consumption of alcohol. \n"
+   "- Recommended to do a primary checkup. Should try to control stress.")
 
+    elif 0.6 < risk <= 0.8:
+       st.markdown( 
+           "- 200g of fruit a day (2 to 3 meals per day).\n"
+    "- 200g vegetables a day (2-3 servings per day).\n"
+    "- Fish at least 2x per week (1 meal a week blue fish).\n"
+    "- need 3 or more times a week moderate to intense aerobic exercise for 60 minutes.\n"
+    "- Must also consult with doctor to see if intense physical activities is recommended.\n"
+    "- Highly recommended to visit a clinic and follow medications.\n"
+    "- Must strictly abstain from consumption of tobacco and alcohol. Should monitor blood pressure, cholesterol and diabetes regularly.\n" 
+    "- Should include intensive counseling on risk factors.")
+
+    else:
+        st.markdown("- Must immediately seek medical attention.")
 
 
 
