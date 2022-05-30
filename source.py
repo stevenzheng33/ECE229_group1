@@ -4,7 +4,6 @@ import plotly.express as px
 import pandas as pd
 from urllib.error import URLError
 import plotly.graph_objects as go
-from torch import sub
 import model
 
 class Toc:
