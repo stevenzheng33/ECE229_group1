@@ -35,8 +35,7 @@ class Toc:
         st.markdown(f"<{level} id='{key}'>{text}</{level}>", unsafe_allow_html=True)
         self._items.append(f"{space}* <a href='#{key}'>{text}</a>")
 toc = Toc()
-if 'bmi_pop' not in st.session_state:
-    st.session_state['bmi_pop'] = 'not_enabled'
+
 
 
 
@@ -49,9 +48,12 @@ st.markdown("Heart disease is the leading cause of death and \
             This represents almost **<font color='red'>25% of all U.S. deaths</font>**. \
                 To raise awareness of this disease, February \
                     has been recognized as “American Heart Month” since 1963.",unsafe_allow_html=True)
-audio_file = open('speech_1.mp3', 'rb')
-audio_bytes = audio_file.read()
-st.audio(audio_bytes, format='audio/mp3')
+def audio(file_name):
+    audio_file_1 = open(file_name, 'rb')
+    audio_1 = audio_file_1.read()
+    st.audio(audio_1, format='audio/mp3')
+
+audio('speech_1.mp3')
 toc.subheader("Top 7 Causes of Deaths")
 
 def line_plot():
@@ -63,14 +65,32 @@ line_plot()
 
 
 toc.subheader("Effect of Features")
-st.markdown("**<font color='red'>Age is the most important</font>** factor of getting heart disease. Two times more crucial than\
-        the second most important factor Diabetic. As we can see in the\
-        previous chart, after **<font color='red'>age 60</font>** the counts of getting heart disease is skyrocketing increasing. \
-        Hence, it is recommend to do medical checkups after 60.",unsafe_allow_html=True)
+st.markdown("**<font color='red'>Age is the most critical factor</font>** in getting heart disease. \
+    Much more crucial than the second most important factor Diabetic. \
+        As we can see in the previous chart, after **<font color='red'>age 60</font>** the counts of getting heart \
+            disease is skyrocketing. Hence, it is recommended to do medical checkups after 60. \
+                Stroke and DiffWalking are also crucial factors as they can give you four to six \
+                    times higher risks.",unsafe_allow_html=True)
 
+audio('speech_2.mp3')
+def bar2():
 
-st.write('Diabetic, Stroke, and DiffWalking are also the crucial factors of getting heart disease.\
-        Having these three diseases gives you four to six times more chance to get heart disease.')
+    x = [10.43386255,  9.65029749,  9.38618916,  9.31959066,  8.77858069,
+        7.83404486,  7.68797564,  7.1098964 ,  6.71319393,  6.57759726,
+        6.16467774,  5.72584813,  4.86625959,  3.72561456,  1.86289353]
+    y = ['AgeCategory', 'Diabetic', 'Stroke', 'DiffWalking',
+       'KidneyDisease', 'SkinCancer', 'Smoking', 'BMI', 'Sex',
+       'PhysicalActivity', 'Asthma', 'AlcoholDrinking', 'Race',
+       'GenHealth', 'SleepTime']
+    fig = go.Figure(go.Bar(
+            x=x,
+            y=y,
+            orientation='h'))
+    st.plotly_chart(fig)
+
+bar2()
+toc.subheader("Explore Contributing Features")
+
 def bar_plot():
     try:
         df = pd.read_csv("./heart_2020_cleaned.csv")
@@ -93,7 +113,7 @@ def bar_plot():
         'SkinCancer',
         'BMI']
         
-        cols = col1.selectbox('Factor metric to view', metrics)
+        cols = col1.selectbox('Choose metric to view', metrics)
         # histogram params
         category_orders = None
         nbins = None
@@ -128,7 +148,12 @@ bar_plot()
 
 
 
+
 toc.subheader("Predict your Heart Disease Risk")
+
+st.markdown("The heart disease risk can be predicted with the help \
+of machine learning with great accuracy. Our model predict the heart risk probability for the \
+patient. Recommended actions are also provided.")
 def create_form():
     form = st.form(key='my_form')
     bmi = form.number_input('BMI')
