@@ -46,11 +46,13 @@ toc.title('Heart Disease Analysis')
 
 st.markdown("Heart disease is the leading cause of death and \
     a major cause of disability in the United States. \
-        About 600,000 Americans die of heart disease annually. \
-            This represents almost 25% of all U.S. deaths. \
+        About **<font color='red'>600,000 Americans</font>** die of heart disease annually. \
+            This represents almost **<font color='red'>25% of all U.S. deaths</font>**. \
                 To raise awareness of this disease, February \
-                    has been recognized as “American Heart Month” since 1963.")
-
+                    has been recognized as “American Heart Month” since 1963.",unsafe_allow_html=True)
+audio_file = open('speech_1.mp3', 'rb')
+audio_bytes = audio_file.read()
+st.audio(audio_bytes, format='audio/mp3')
 toc.subheader("Top 7 Causes of Deaths")
 
 def line_plot():
@@ -62,14 +64,14 @@ line_plot()
 
 
 toc.subheader("Effect of Features")
-st.write('Age is the most important factor of getting heart disease. Two times more crucial than\
+st.markdown("**<font color='red'>Age is the most important</font>** factor of getting heart disease. Two times more crucial than\
         the second most important factor Diabetic. As we can see in the\
-        previous chart, after age 60 the counts of getting heart disease is skyrocketing increasing.\
-        Hence, it is recommend to do medical checkups after 60.')
+        previous chart, after **<font color='red'>age 60</font>** the counts of getting heart disease is skyrocketing increasing. \
+        Hence, it is recommend to do medical checkups after 60.",unsafe_allow_html=True)
 
 
 st.write('Diabetic, Stroke, and DiffWalking are also the crucial factors of getting heart disease.\
-        Having these three diseases gives you four to six times more chance to having heart disease.')
+        Having these three diseases gives you four to six times more chance to get heart disease.')
 def bar_plot():
     try:
         df = pd.read_csv("./heart_2020_cleaned.csv")
@@ -206,46 +208,77 @@ def create_form():
             import random
             risk = random.uniform(0, 1)
         display_risk = str(round(risk*100,2))+"%"
-        st.markdown('## Your predicted risk for Heart Disease is '+ display_risk)
+        st.markdown('## Your predicted risk is '+ display_risk)
 
         if risk < 0.2:
             st.markdown("#### - Consume a healthy diet that emphasizes the intake of vegetables, fruits and nuts.\n"
             "#### - Healthy adults who lead a sedentary lifestyle should be encouraged to start with a light exercise intensity. Must maintain weight.")
         
         elif 0.2 <risk <= 0.4:
-            st.markdown("- If you are overweight, achieve and maintain weight-loss.\n" 
-        "- Healthy adults all ages of 2.5 to 5h a week of moderate physical activity or 1 to 2.5h per week of intense physical activity.\n"
-    "- This includes fast walking, bicycling, or swimming. \n"
-    "- Regularly consume fish.\n"
-        "- Consume a varied well-balanced diet.\n")
+            st.markdown("#### - If you are overweight, achieve and maintain weight-loss.\n" 
+        "#### - Healthy adults all ages of 2.5 to 5h a week of moderate physical activity or 1 to 2.5h per week of intense physical activity.\n"
+    "#### - This includes fast walking, bicycling, or swimming. \n"
+    "#### - Regularly consume fish.\n"
+        "#### - Consume a varied well-balanced diet.\n")
 
         elif 0.4 < risk <= 0.6:
             st.markdown(
-        "- Eat a well balanced diet with lot of fruits and vegetables.\n"
-    "- Reduced intake of salt in food (<5g/day)\n"
-        "- 30 to 45 grams of fiber per day\n"
-        "- Avoid salty and factory processed foods.\n"
-        "- need 3 or more times a week moderate to intense aerobic exercise for 30 minutes.\n"
-        "- Must restrict the usage of tobacco and consumption of alcohol. \n"
-    "- Recommended to do a primary checkup. Should try to control stress.")
+        "#### - Eat a well balanced diet with lot of fruits and vegetables.\n"
+    "#### - Reduced intake of salt in food (<5g/day)\n"
+        "#### - 30 to 45 grams of fiber per day\n"
+        "#### - Avoid salty and factory processed foods.\n"
+        "#### - need 3 or more times a week moderate to intense aerobic exercise for 30 minutes.\n"
+        "#### - Must restrict the usage of tobacco and consumption of alcohol. \n"
+    "#### - Recommended to do a primary checkup. Should try to control stress.")
 
         elif 0.6 < risk <= 0.8:
             st.markdown( 
-            "- 200g of fruit a day (2 to 3 meals per day).\n"
-        "- 200g vegetables a day (2-3 servings per day).\n"
-        "- Fish at least 2x per week (1 meal a week blue fish).\n"
-        "- need 3 or more times a week moderate to intense aerobic exercise for 60 minutes.\n"
-        "- Must also consult with doctor to see if intense physical activities is recommended.\n"
-        "- Highly recommended to visit a clinic and follow medications.\n"
-        "- Must strictly abstain from consumption of tobacco and alcohol. Should monitor blood pressure, cholesterol and diabetes regularly.\n" 
-        "- Should include intensive counseling on risk factors.")
+            "#### - 200g of fruit a day (2 to 3 meals per day).\n"
+        "#### - 200g vegetables a day (2-3 servings per day).\n"
+        "#### - Fish at least 2x per week (1 meal a week blue fish).\n"
+        "#### - need 3 or more times a week moderate to intense aerobic exercise for 60 minutes.\n"
+        "#### - Must also consult with doctor to see if intense physical activities is recommended.\n"
+        "#### - Highly recommended to visit a clinic and follow medications.\n"
+        "#### - Must strictly abstain from consumption of tobacco and alcohol. Should monitor blood pressure, cholesterol and diabetes regularly.\n" 
+        "#### - Should include intensive counseling on risk factors.")
 
         else:
-            st.markdown("- Must immediately seek medical attention.")
+            st.markdown("#### - Must immediately seek medical attention.")
 
 
 create_form()
 
+st.markdown('##')
+st.markdown('##')
+st.markdown('##')
+st.markdown('##')
+st.markdown('##')
+
+
+toc.subheader("How our model works")
+def model_explanation():
+    st.markdown( "##### 1. Data Acquisition \n")
+    st.write("The heart risk dataset is obtained from  the UCI ML repository. \
+It contains 75 attributes for 303 patients.")
+    st.markdown( "##### 2. Data Pre-processing \n")
+    st.write("Cardiovascular disease UCI dataset is first loaded and then data cleaning\
+ and finding missing values was performed on all records. The categorical\
+features are converted to numerical ones to be used in Logistic Regression.")
+    st.markdown( "##### 3. Feature Selection \n")
+    st.write("The input has general patients details like age, gender and also certain medical information.\
+ The medical information are vital attributes predicting heart disease. \
+ The correlation performed on all 13 attributes with the target value to select the\
+ features with high and positive correlation feature.")
+    st.markdown( "##### 4. Classification model \n")
+    st.write("To predict the heart disease logistic regression ML model is used, firstly the LR  \
+model are trained after splitting condition and tested with test data for prediction to get the best accuracy and to find the models behavior. \
+The LR is the supervised ML binary classification algorithm widely used in most application.  It works on categorical dependent variable the result can be discrete or binary categorical variable 0 or 1. The sigmoid function is used as a cost function. Sigmoid function maps a predicted real value to a probabilistic value.")
+    st.markdown( "##### 5. Risk prediction \n")
+    st.write("To predict the risk, the patient details are fed to the LR model. The LR model gives \
+probabilistic values between 0 and 1, which can be scaled to percentage. The results are further split into 5 sub-categories to provide recommendations to the patients based on their information.")
+
+
+model_explanation()
     
 
     
