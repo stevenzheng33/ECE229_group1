@@ -10,23 +10,7 @@ import time
 
 import streamlit.components.v1 as components
 
-if "counter" not in st.session_state:
-    st.session_state.counter = 1
 
-
-
-if st.button("Load New Page"):
-    st.session_state.counter += 1
-
-components.html(
-    f"""
-        <p>{st.session_state.counter}</p>
-        <script>
-            window.parent.document.querySelector('section.main').scrollTo(0, 100);
-        </script>
-    """,
-    height=0
-)
 class Toc:
 
     def __init__(self):
@@ -393,8 +377,6 @@ toc.generate()
 
 if "counter" not in st.session_state:
     st.session_state.counter = 1
-
-
 
 if st.button("Load New Page"):
     st.session_state.counter += 1
