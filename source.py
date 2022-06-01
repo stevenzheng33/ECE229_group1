@@ -4,7 +4,9 @@ import plotly.express as px
 import pandas as pd
 from urllib.error import URLError
 import plotly.graph_objects as go
+from tensorboard import program
 import model
+import time
 
 class Toc:
 
@@ -61,7 +63,20 @@ def line_plot():
     df = df.set_index('Year')
     st.line_chart(df[['Heart disease', 'Cancer ', 'Unintentional injuries',
         'CLRD', 'Stroke', "Alzheimer's disease", 'Diabetes']])
-line_plot()
+
+def line_plot_2():
+    df = pd.read_csv('death_causes.csv')
+    df = df.set_index('Year')
+    fig = px.line(df[['Heart disease', 'Cancer ', 'Unintentional injuries', 'CLRD', 'Stroke', "Alzheimer's disease", 'Diabetes']])
+    fig.update_layout(
+    title="Death Causes",
+    xaxis_title="Year",
+    yaxis_title="Count (thousands)",
+    legend_title="variables")
+
+    st.write(fig)
+line_plot_2()
+# line_plot()
 
 
 toc.subheader("Effect of Features")
@@ -154,6 +169,24 @@ toc.subheader("Predict your Heart Disease Risk")
 st.markdown("The heart disease risk can be predicted with the help \
 of machine learning with great accuracy. Our model predict the heart risk probability for the \
 patient. Recommended actions are also provided.")
+
+def progress_bar(color, value):
+    st.markdown(
+    """
+    <style>
+        .stProgress > div > div > div > div {
+            background-color: %s;
+        }
+    </style>""" % (color),
+    unsafe_allow_html=True,
+    )
+
+    my_bar = st.progress(0)
+    # time.sleep(0.5)
+    for percent_complete in range(int(value*100)):
+        time.sleep(0.01)
+        my_bar.progress(percent_complete + 1)
+
 def create_form():
     form = st.form(key='my_form')
     bmi = form.number_input('BMI')
@@ -235,10 +268,12 @@ def create_form():
         st.markdown('## Your predicted risk is '+ display_risk)
 
         if risk < 0.2:
+            progress_bar('green',risk)
             st.markdown("#### - Consume a healthy diet that emphasizes the intake of vegetables, fruits and nuts.\n"
             "#### - Healthy adults who lead a sedentary lifestyle should be encouraged to start with a light exercise intensity. Must maintain weight.")
         
         elif 0.2 <risk <= 0.4:
+            progress_bar('blue',risk)
             st.markdown("#### - If you are overweight, achieve and maintain weight-loss.\n" 
         "#### - Healthy adults all ages of 2.5 to 5h a week of moderate physical activity or 1 to 2.5h per week of intense physical activity.\n"
     "#### - This includes fast walking, bicycling, or swimming. \n"
@@ -246,6 +281,7 @@ def create_form():
         "#### - Consume a varied well-balanced diet.\n")
 
         elif 0.4 < risk <= 0.6:
+            progress_bar('yellow',risk)
             st.markdown(
         "#### - Eat a well balanced diet with lot of fruits and vegetables.\n"
     "#### - Reduced intake of salt in food (<5g/day)\n"
@@ -256,6 +292,7 @@ def create_form():
     "#### - Recommended to do a primary checkup. Should try to control stress.")
 
         elif 0.6 < risk <= 0.8:
+            progress_bar('coral',risk)
             st.markdown( 
             "#### - 200g of fruit a day (2 to 3 meals per day).\n"
         "#### - 200g vegetables a day (2-3 servings per day).\n"
@@ -267,6 +304,7 @@ def create_form():
         "#### - Should include intensive counseling on risk factors.")
 
         else:
+            progress_bar('red',risk)
             st.markdown("#### - Must immediately seek medical attention.")
 
 
