@@ -1,10 +1,8 @@
-from numpy import disp
 import streamlit as st
 import plotly.express as px
 import pandas as pd
 from urllib.error import URLError
 import plotly.graph_objects as go
-from tensorboard import program
 import model
 import time
 
