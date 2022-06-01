@@ -6,6 +6,27 @@ import plotly.graph_objects as go
 import model
 import time
 
+
+
+import streamlit.components.v1 as components
+
+if "counter" not in st.session_state:
+    st.session_state.counter = 1
+
+
+
+if st.button("Load New Page"):
+    st.session_state.counter += 1
+
+components.html(
+    f"""
+        <p>{st.session_state.counter}</p>
+        <script>
+            window.parent.document.querySelector('section.main').scrollTo(0, 100);
+        </script>
+    """,
+    height=0
+)
 class Toc:
 
     def __init__(self):
@@ -36,11 +57,17 @@ class Toc:
         self._items.append(f"{space}* <a href='#{key}'>{text}</a>")
 toc = Toc()
 
+def sidebar():
+    with st.sidebar:
+        st.title('Table of Contents')
+        
+        toc.placeholder()
+        
+sidebar()
 
 
 
-
-toc.title('Heart Disease Analysis')
+toc.title('Cardio Care')
 
 st.markdown("Heart disease is the leading cause of death and \
     a major cause of disability in the United States. \
@@ -54,7 +81,7 @@ def audio(file_name):
     st.audio(audio_1, format='audio/mp3')
 
 audio('speech_1.mp3')
-toc.subheader("Top 7 Causes of Deaths")
+toc.subheader("Top 7 Causes of Deaths in US")
 
 def line_plot():
     df = pd.read_csv('death_causes.csv')
@@ -66,12 +93,16 @@ def line_plot_2():
     df = pd.read_csv('death_causes.csv')
     df = df.set_index('Year')
     fig = px.line(df[['Heart disease', 'Cancer ', 'Unintentional injuries', 'CLRD', 'Stroke', "Alzheimer's disease", 'Diabetes']])
+
+
+    fig['data'][0]['line']['color'] = "#FE0101"
+    fig['data'][1]['line']['color'] = "#7FB5FF"
     fig.update_layout(
     title="Death Causes",
+    title_x=0.45,
     xaxis_title="Year",
     yaxis_title="Count (thousands)",
     legend_title="variables")
-
     st.write(fig)
 line_plot_2()
 # line_plot()
@@ -99,6 +130,13 @@ def bar2():
             x=x,
             y=y,
             orientation='h'))
+    fig.update_layout(
+           
+            title="Effect of each Input using Chi-Square Test",
+            title_x = 0.45,
+            xaxis_title="log(Chi-Square Test Statistic) ",
+            yaxis_title="Features"
+    )
     st.plotly_chart(fig)
 
 bar2()
@@ -145,7 +183,13 @@ def bar_plot():
 
         fig = px.histogram(df, x=cols, color="HeartDisease", width=500, height=500,
                            barnorm=barnorm, nbins=nbins, category_orders=category_orders)
-
+        fig.update_layout(
+           
+            title="Correlation Between Feature and Heart Disease",
+            title_x = 0.45,
+            xaxis_title= cols,
+            yaxis_title="Percentage that have Heart Disease"
+    )
         fig1.write(fig)
 
     except URLError as e:
@@ -178,63 +222,64 @@ def progress_bar(color, value):
     </style>""" % (color),
     unsafe_allow_html=True,
     )
-
     my_bar = st.progress(0)
-    # time.sleep(0.5)
+    time.sleep(1)
     for percent_complete in range(int(value*100)):
         time.sleep(0.01)
         my_bar.progress(percent_complete + 1)
 
 def create_form():
     form = st.form(key='my_form')
-    bmi = form.number_input('BMI')
+    
+    bmi = form.number_input('BMI ---- Body Mass Index Weight(kg)/(Height(m)*Height(m))')
+    
     smoking = form.selectbox(
-        'Smoking',
+        'Smoking ---- Have you smoked at least 100 cigarettes in your entire life?',
         ('','True', 'False'))
     alcohol = form.selectbox(
-        'Alcohol Drinking',
+        'Alcohol Drinking ---- Heavy drinkers? (adult men having more than 14 drinks per week and adult women having more than 7 drinks per week',
         ('','True', 'False'))
     stroke = form.selectbox(
-        'Stroke',
+        'Stroke ---- (Ever told) (you had) a stroke?',
         ('','True', 'False'))
     walking = form.selectbox(
-        'Difficult Walking',
+        'Difficult Walking ---- Do you have serious difficulty walking or climbing stairs?',
         ('','True', 'False'))
     sex = form.selectbox(
-        'Gender',
+        'Sex ---- Are you bilogically male or female?',
         ('','Male', 'Female'))
 
-    age = form.number_input('Age')
+    age = form.number_input('Age ---- What is your age?')
 
     race = form.selectbox(
-        'Race',
+        'Race ---- Please specify your ethnicity.',
         ('','White', 'Black', 'Asian', 'American Indian/Alaskan Native',
         'Other', 'Hispanic'))
 
     diabetic = form.selectbox(
-        'Diabetic',
+        'Diabetic ---- (Ever told) (you had) diabetes?',
         ('','True', 'False'))
 
     activity = form.selectbox(
-        'Physical Activity',
+        'Physical Activity ---- Doing physical activity or exercise during the past 30 days other than regular job?',
         ('','True', 'False'))
 
     health = form.selectbox(
-        'General Health',
+        'General Health ---- Would you say that in general your health is...',
         ('','Very good', 'Fair', 'Good', 'Poor', 'Excellent')
     )
-    sleep = form.number_input('SleepTime (Hours)')
+    sleep = form.number_input('SleepTime (Hours) ---- On average, how many hours of sleep do you get in a 24-hour period?')
 
     asthma = form.selectbox(
-        'Asthma',
+        'Asthma ---- (Ever told) (you had) asthma?',
         ('','True', 'False'))
 
     kidney = form.selectbox(
-        'Kidney Disease',
+        'Kidney Disease ---- Not including kidney stones, bladder infection or incontinence, were you ever told you had kidney disease?',
         ('','True', 'False'))
 
     skin = form.selectbox(
-        'Skin Cancer',
+        'Skin Cancer ---- (Ever told) (you had) skin cancer?',
         ('','True', 'False'))
     submit_button = form.form_submit_button(label='Submit')
 
@@ -316,6 +361,7 @@ st.markdown('##')
 
 
 toc.subheader("How our model works")
+
 def model_explanation():
     st.markdown( "##### 1. Data Acquisition \n")
     st.write("The heart risk dataset is obtained from  the UCI ML repository. \
@@ -342,13 +388,9 @@ model_explanation()
     
 
     
-def sidebar():
-    with st.sidebar:
-        st.title('Table of Contents')
-        
-        toc.placeholder()
-        toc.generate()
-sidebar()
+
+toc.generate()
+
 
 
 
