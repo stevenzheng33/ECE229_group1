@@ -391,6 +391,24 @@ model_explanation()
 
 toc.generate()
 
+if "counter" not in st.session_state:
+    st.session_state.counter = 1
+
+
+
+if st.button("Load New Page"):
+    st.session_state.counter += 1
+
+components.html(
+    f"""
+        <p>{st.session_state.counter}</p>
+        <script>
+            window.parent.document.querySelector('section.main').scrollTo(0, 100);
+        </script>
+    """,
+    height=0
+)
+
 
 
 
