@@ -45,7 +45,7 @@ def model(user_data):
 
     if user_data.isnull().any(): # re-train model
         # load data
-        df = pd.read_csv('processed_data.csv')
+        df = pd.read_csv('data/processed_data.csv')
         df.loc[len(df.index)] = user_data.values
         df = df.dropna(axis=1)
 
