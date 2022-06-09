@@ -32,8 +32,7 @@ audio('audio/speech_1.mp3')
 toc.subheader("Top 7 Causes of Deaths in US")
 
 
-line_plot_2()
-
+death_causes_line_plot()
 
 
 toc.subheader("Effect of Features")
@@ -48,13 +47,11 @@ audio('audio/speech_2.mp3')
 
 
 
-bar2()
+chi_square_bar_plot()
 toc.subheader("Explore Contributing Features")
 
 
-bar_plot()
-
-
+dynamic_bar_plot()
 
 
 toc.subheader("Predict your Heart Disease Risk")

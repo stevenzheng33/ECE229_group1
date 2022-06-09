@@ -5,23 +5,44 @@ from urllib.error import URLError
 import plotly.graph_objects as go
 import model
 import time
+import re
 
 class Toc:
+    """
+    This class is used for Streamlit to build the Table of Contents. For this project
+    it will be used for the sidebar.
+    """
 
     def __init__(self):
+        """
+        Initialize function.
+        """
         self._items = []
         self._placeholder = None
     
     def title(self, text):
+        """
+        :param text: The text for the title.
+        """
         self._markdown(text, "h1")
 
     def header(self, text):
+        """
+        :param text: The text for the header.
+        """
         self._markdown(text, "h2", " " * 2)
 
     def subheader(self, text):
+        """
+        :param text: The text for the subheader.
+        """
         self._markdown(text, "h3", " " * 4)
 
     def placeholder(self, sidebar=False):
+        """
+        :param sidebar: If sidebar = False, no side bar in Table of Contents. If sidebar = True, adds empty sidebar
+        to Table of Contents, temporarily.
+        """
         self._placeholder = st.sidebar.empty() if sidebar else st.empty()
 
     def generate(self):
@@ -29,24 +50,39 @@ class Toc:
             self._placeholder.markdown("\n".join(self._items), unsafe_allow_html=True)
     
     def _markdown(self, text, level, space=""):
-        import re
+        """
+        :param text:
+        :param level:
+        :param space:
+        """
         key = re.sub('[^0-9a-zA-Z]+', '-', text).lower()
 
         st.markdown(f"<{level} id='{key}'>{text}</{level}>", unsafe_allow_html=True)
         self._items.append(f"{space}* <a href='#{key}'>{text}</a>")
 
 def sidebar(toc):
+    """
+    :param toc: The TOC class.
+    """
     with st.sidebar:
         st.title('Table of Contents')
         
         toc.placeholder()
 
 def audio(file_name):
+    """
+    :param file_name: The file path for the audio. This function will automatically embed the audio widget where every, you
+    call it in the source file.
+    """
     audio_file_1 = open(file_name, 'rb')
     audio_1 = audio_file_1.read()
     st.audio(audio_1, format='audio/mp3')
 
-def line_plot_2():
+def death_causes_line_plot():
+    """
+    The function embeds the death causes line plot (data file: data/death_causes.csv) to where every, you
+    call it in the source file.
+    """
     df = pd.read_csv('data/death_causes.csv')
     df = df.set_index('Year')
     fig = px.line(df[['Heart disease', 'Cancer ', 'Unintentional injuries', 'CLRD', 'Stroke', "Alzheimer's disease", 'Diabetes']])
@@ -62,7 +98,11 @@ def line_plot_2():
     legend_title="variables")
     st.write(fig)
 
-def bar2():
+def chi_square_bar_plot():
+    """
+    The function embeds the chi-square bar plot (data file: data/processed_data.csv) to where every, you
+    call it in the source file.
+    """
 
     x = [10.43386255,  9.65029749,  9.38618916,  9.31959066,  8.77858069,
         7.83404486,  7.68797564,  7.1098964 ,  6.71319393,  6.57759726,
@@ -84,7 +124,11 @@ def bar2():
     )
     st.plotly_chart(fig)
 
-def bar_plot():
+def dynamic_bar_plot():
+    """
+    The function embeds the bar plot (data file: data/heart_2020_cleaned.csv) of the various features to Heart Disease.
+    """
+
     try:
         df = pd.read_csv("data/heart_2020_cleaned.csv")
 
@@ -145,6 +189,11 @@ def bar_plot():
         )
 
 def progress_bar(color, value):
+    """
+
+    :param color: The color of the progress bar.
+    :param value: The value set for the progress bar.
+    """
     st.markdown(
     """
     <style>
@@ -162,6 +211,10 @@ def progress_bar(color, value):
 
 
 def create_form():
+    """
+    This function creates the form which will be used as the input to our model. Ths user doesn't need to select all
+    the features, our model can retrain with subset of the features.
+    """
     form = st.form(key='my_form')
     
     bmi = form.number_input('BMI ---- Body Mass Index Weight(kg)/(Height(m)*Height(m))')
@@ -284,6 +337,9 @@ def create_form():
             st.markdown("#### - Must immediately seek medical attention.")
 
 def model_explanation():
+    """
+    This function writes text to the website, explaining our model pipeline.
+    """
     st.markdown( "##### 1. Data Acquisition \n")
     st.write("The heart risk dataset is obtained from  the UCI ML repository. \
 It contains 75 attributes for 303 patients.")
