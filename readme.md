@@ -1,4 +1,4 @@
-#Cardio Care: A Heart Disease Analysis
+# Cardio Care: A Heart Disease Analysis
 ![alt text](/readme_images/cover.png "Title")
 ## Summary
 Cardio Care provides a platform for users to learn about the risk and causes of heart disease. Our main application takes in easily-accessible features and output the predicted risk and corresponding recommendations for the user. 
