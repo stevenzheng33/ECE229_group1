@@ -124,5 +124,5 @@ if __name__ == '__main__':
                 "SkinCancer":"True",
                 }
     score, prob = model(user_data)
-    model(user_data)
-    print(score, prob)
+    # model(user_data)
+    # print(score, prob)
