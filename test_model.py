@@ -64,6 +64,8 @@ test_list = [   ("False",33,"False","False","False","True","Male","80 or older",
                             KidneyDisease, SkinCancer',
                             test_list
                             )
+
+@pytest.mark.skip(reason="no way of currently testing this")
 def test_model(HeartDisease, BMI, Smoking, AlcoholDrinking, Stroke, \
                             DiffWalking, Sex, AgeCategory, Race, Diabetic, \
                             PhysicalActivity, GenHealth, SleepTime, Asthma, \

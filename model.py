@@ -7,7 +7,19 @@ import pickle
 import warnings
 warnings.filterwarnings("ignore")
 
+<<<<<<< Updated upstream
 def model(user_data):
+=======
+
+def model(user_data): # pragma: no cover
+    """
+    The functions runs the user data to a LogisticRegression model. The user doesn't need to upload all the user data,
+    this function will dynamically train a new model with the given user data.
+
+    :param user_data: The user data from the form.
+    :return: The score of possible heart disease.
+    """
+>>>>>>> Stashed changes
 
     # pre-processing
     user_data = pd.Series(user_data, index=["HeartDisease","BMI","Smoking",
@@ -74,7 +86,17 @@ def model(user_data):
         return 0.9141, output[0]
         
 
+<<<<<<< Updated upstream
 def age_tranform(age):
+=======
+def age_tranform(age): # pragma: no cover
+    """
+    :param age: The age parameter converting from an integer to string interval.
+    :return: String interval
+    """
+
+
+>>>>>>> Stashed changes
     age = int(age)
     if age >= 55 and age <= 59:
         age = '55-59'
