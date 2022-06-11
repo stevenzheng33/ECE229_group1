@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>functions &mdash; Cardio Care  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Cardio Care
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Cardio Care</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      <li>functions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for functions</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">xmlrpc.client</span> <span class="kn">import</span> <span class="n">Boolean</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">isin</span>
+<span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">urllib.error</span> <span class="kn">import</span> <span class="n">URLError</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="kn">import</span> <span class="nn">model</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<div class="viewcode-block" id="Toc"><a class="viewcode-back" href="../functions.html#functions.Toc">[docs]</a><span class="k">class</span> <span class="nc">Toc</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class is used for Streamlit to build the Table of Contents. For this project</span>
+<span class="sd">    it will be used for the sidebar.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize function, it is used to intialize class fields</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_placeholder</span> <span class="o">=</span> <span class="kc">None</span>
+    
+<div class="viewcode-block" id="Toc.title"><a class="viewcode-back" href="../functions.html#functions.Toc.title">[docs]</a>    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span> 
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function is used to display the title</span>
+<span class="sd">        :param text: The text for the title.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_markdown</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;h1&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Toc.header"><a class="viewcode-back" href="../functions.html#functions.Toc.header">[docs]</a>    <span class="k">def</span> <span class="nf">header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span> 
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function is used to display the header.</span>
+<span class="sd">        :param text: The text for the header.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_markdown</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;h2&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Toc.subheader"><a class="viewcode-back" href="../functions.html#functions.Toc.subheader">[docs]</a>    <span class="k">def</span> <span class="nf">subheader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span> 
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function is used to display the subheader.</span>
+<span class="sd">        :param text: The text for the subheader.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_markdown</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;h3&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Toc.placeholder"><a class="viewcode-back" href="../functions.html#functions.Toc.placeholder">[docs]</a>    <span class="k">def</span> <span class="nf">placeholder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sidebar</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span> 
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param sidebar: If sidebar = False, no side bar in Table of Contents. If sidebar = True, adds empty sidebar</span>
+<span class="sd">        to Table of Contents, temporarily.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sidebar</span><span class="p">,</span> <span class="n">Boolean</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_placeholder</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span> <span class="k">if</span> <span class="n">sidebar</span> <span class="k">else</span> <span class="n">st</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Toc.generate"><a class="viewcode-back" href="../functions.html#functions.Toc.generate">[docs]</a>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function is used to place placeholders for inputs if required</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_placeholder</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_placeholder</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">),</span> <span class="n">unsafe_allow_html</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    
+    <span class="k">def</span> <span class="nf">_markdown</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span> 
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function is used to display items of markdown</span>
+<span class="sd">        :param text: The text for the markdown</span>
+<span class="sd">        :param level: The level in the markdown</span>
+<span class="sd">        :param space: The spacing before text in markdown</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9a-zA-Z]+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+        <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2"> id=&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&lt;/</span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2">&gt;&quot;</span><span class="p">,</span> <span class="n">unsafe_allow_html</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">space</span><span class="si">}</span><span class="s2">* &lt;a href=&#39;#</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&lt;/a&gt;&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="sidebar"><a class="viewcode-back" href="../functions.html#functions.sidebar">[docs]</a><span class="k">def</span> <span class="nf">sidebar</span><span class="p">(</span><span class="n">toc</span><span class="p">):</span> 
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is used to display the sidebar</span>
+<span class="sd">    :param toc: The TOC class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">toc</span><span class="p">,</span> <span class="n">Toc</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="p">:</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Table of Contents&#39;</span><span class="p">)</span>
+        
+        <span class="n">toc</span><span class="o">.</span><span class="n">placeholder</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="audio"><a class="viewcode-back" href="../functions.html#functions.audio">[docs]</a><span class="k">def</span> <span class="nf">audio</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param file_name: The file path for the audio. This function will automatically embed the audio widget where every, you</span>
+<span class="sd">    call it in the source file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="n">audio_file_1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
+    <span class="n">audio_1</span> <span class="o">=</span> <span class="n">audio_file_1</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">audio</span><span class="p">(</span><span class="n">audio_1</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;mp3&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="death_causes_line_plot"><a class="viewcode-back" href="../functions.html#functions.death_causes_line_plot">[docs]</a><span class="k">def</span> <span class="nf">death_causes_line_plot</span><span class="p">():</span> 
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function embeds the death causes line plot (data file: data/death_causes.csv) to where every, you</span>
+<span class="sd">    call it in the source file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/death_causes.csv&#39;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;Heart disease&#39;</span><span class="p">,</span> <span class="s1">&#39;Cancer &#39;</span><span class="p">,</span> <span class="s1">&#39;Unintentional injuries&#39;</span><span class="p">,</span> <span class="s1">&#39;CLRD&#39;</span><span class="p">,</span> <span class="s1">&#39;Stroke&#39;</span><span class="p">,</span> <span class="s2">&quot;Alzheimer&#39;s disease&quot;</span><span class="p">,</span> <span class="s1">&#39;Diabetes&#39;</span><span class="p">]])</span>
+
+
+    <span class="n">fig</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;line&#39;</span><span class="p">][</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;#FE0101&quot;</span>
+    <span class="n">fig</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;line&#39;</span><span class="p">][</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;#7FB5FF&quot;</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Death Causes&quot;</span><span class="p">,</span>
+    <span class="n">title_x</span><span class="o">=</span><span class="mf">0.45</span><span class="p">,</span>
+    <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span>
+    <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">&quot;Count (thousands)&quot;</span><span class="p">,</span>
+    <span class="n">legend_title</span><span class="o">=</span><span class="s2">&quot;variables&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="chi_square_bar_plot"><a class="viewcode-back" href="../functions.html#functions.chi_square_bar_plot">[docs]</a><span class="k">def</span> <span class="nf">chi_square_bar_plot</span><span class="p">():</span> 
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function embeds the chi-square bar plot (data file: data/processed_data.csv) to where every, you</span>
+<span class="sd">    call it in the source file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mf">10.43386255</span><span class="p">,</span>  <span class="mf">9.65029749</span><span class="p">,</span>  <span class="mf">9.38618916</span><span class="p">,</span>  <span class="mf">9.31959066</span><span class="p">,</span>  <span class="mf">8.77858069</span><span class="p">,</span>
+        <span class="mf">7.83404486</span><span class="p">,</span>  <span class="mf">7.68797564</span><span class="p">,</span>  <span class="mf">7.1098964</span> <span class="p">,</span>  <span class="mf">6.71319393</span><span class="p">,</span>  <span class="mf">6.57759726</span><span class="p">,</span>
+        <span class="mf">6.16467774</span><span class="p">,</span>  <span class="mf">5.72584813</span><span class="p">,</span>  <span class="mf">4.86625959</span><span class="p">,</span>  <span class="mf">3.72561456</span><span class="p">,</span>  <span class="mf">1.86289353</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AgeCategory&#39;</span><span class="p">,</span> <span class="s1">&#39;Diabetic&#39;</span><span class="p">,</span> <span class="s1">&#39;Stroke&#39;</span><span class="p">,</span> <span class="s1">&#39;DiffWalking&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;KidneyDisease&#39;</span><span class="p">,</span> <span class="s1">&#39;SkinCancer&#39;</span><span class="p">,</span> <span class="s1">&#39;Smoking&#39;</span><span class="p">,</span> <span class="s1">&#39;BMI&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;PhysicalActivity&#39;</span><span class="p">,</span> <span class="s1">&#39;Asthma&#39;</span><span class="p">,</span> <span class="s1">&#39;AlcoholDrinking&#39;</span><span class="p">,</span> <span class="s1">&#39;Race&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;GenHealth&#39;</span><span class="p">,</span> <span class="s1">&#39;SleepTime&#39;</span><span class="p">]</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">))</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+           
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Effect of each Input using Chi-Square Test&quot;</span><span class="p">,</span>
+            <span class="n">title_x</span> <span class="o">=</span> <span class="mf">0.45</span><span class="p">,</span>
+            <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">&quot;log(Chi-Square Test Statistic) &quot;</span><span class="p">,</span>
+            <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">&quot;Features&quot;</span>
+    <span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">plotly_chart</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span></div>
+
+
+
+
+<div class="viewcode-block" id="dynamic_bar_plot"><a class="viewcode-back" href="../functions.html#functions.dynamic_bar_plot">[docs]</a><span class="k">def</span> <span class="nf">dynamic_bar_plot</span><span class="p">():</span> 
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function embeds the bar plot (data file: data/heart_2020_cleaned.csv) of the various features to Heart Disease.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/heart_2020_cleaned.csv&quot;</span><span class="p">)</span>
+
+    
+        <span class="n">col1</span><span class="p">,</span><span class="n">b1</span><span class="p">,</span> <span class="n">col2</span><span class="p">,</span><span class="n">b2</span><span class="p">,</span> <span class="n">col3</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">fig1</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span><span class="n">fig2</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">metrics</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Smoking&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;AlcoholDrinking&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Stroke&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;DiffWalking&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Sex&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;AgeCategory&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Race&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Diabetic&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;PhysicalActivity&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;GenHealth&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Asthma&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;KidneyDisease&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;SkinCancer&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;BMI&#39;</span><span class="p">]</span>
+        
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">col1</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span><span class="s1">&#39;Choose metric to view&#39;</span><span class="p">,</span> <span class="n">metrics</span><span class="p">)</span>
+        <span class="c1"># histogram params</span>
+        <span class="n">category_orders</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">nbins</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">barnorm</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1">#</span>
+        <span class="k">if</span> <span class="n">cols</span> <span class="o">==</span> <span class="s1">&#39;AgeCategory&#39;</span><span class="p">:</span>
+            <span class="n">category_orders</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;AgeCategory&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;18-24&quot;</span><span class="p">,</span> <span class="s2">&quot;25-29&quot;</span><span class="p">,</span> <span class="s2">&quot;30-34&quot;</span><span class="p">,</span> <span class="s2">&quot;35-39&quot;</span><span class="p">,</span> <span class="s2">&quot;40-44&quot;</span><span class="p">,</span>
+                                               <span class="s2">&quot;45-49&quot;</span><span class="p">,</span> <span class="s2">&quot;50-54&quot;</span><span class="p">,</span> <span class="s2">&quot;55-59&quot;</span><span class="p">,</span> <span class="s2">&quot;60-64&quot;</span><span class="p">,</span> <span class="s2">&quot;65-69&quot;</span><span class="p">,</span> <span class="s2">&quot;70-74&quot;</span><span class="p">,</span> <span class="s2">&quot;75-79&quot;</span><span class="p">,</span> <span class="s2">&quot;80 or older&quot;</span><span class="p">]}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">category_orders</span> <span class="o">=</span> <span class="p">{</span><span class="n">cols</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">]}</span>
+        <span class="k">if</span> <span class="n">cols</span> <span class="o">==</span> <span class="s1">&#39;BMI&#39;</span><span class="p">:</span>
+            <span class="n">nbins</span> <span class="o">=</span> <span class="mi">20</span>
+        <span class="k">if</span> <span class="n">cols</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;AgeCategory&#39;</span><span class="p">,</span> <span class="s1">&#39;BMI&#39;</span><span class="p">,</span> <span class="s1">&#39;Smoking&#39;</span><span class="p">,</span> <span class="s1">&#39;AlcoholDrinking&#39;</span><span class="p">,</span> <span class="s1">&#39;Stroke&#39;</span><span class="p">,</span> <span class="s1">&#39;DiffWalking&#39;</span><span class="p">,</span> <span class="s1">&#39;Race&#39;</span><span class="p">,</span> <span class="s1">&#39;Sex&#39;</span><span class="p">,</span> <span class="s1">&#39;Diabetic&#39;</span><span class="p">,</span> <span class="s1">&#39;PhysicalActivity&#39;</span><span class="p">,</span> <span class="s1">&#39;GenHealth&#39;</span><span class="p">,</span> <span class="s1">&#39;Asthma&#39;</span><span class="p">,</span> <span class="s1">&#39;KidneyDisease&#39;</span><span class="p">,</span> <span class="s1">&#39;SkinCancer&#39;</span><span class="p">]:</span>
+            <span class="n">barnorm</span> <span class="o">=</span> <span class="s2">&quot;percent&quot;</span>
+
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;HeartDisease&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+                           <span class="n">barnorm</span><span class="o">=</span><span class="n">barnorm</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="n">nbins</span><span class="p">,</span> <span class="n">category_orders</span><span class="o">=</span><span class="n">category_orders</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+           
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Correlation Between Feature and Heart Disease&quot;</span><span class="p">,</span>
+            <span class="n">title_x</span> <span class="o">=</span> <span class="mf">0.45</span><span class="p">,</span>
+            <span class="n">xaxis_title</span><span class="o">=</span> <span class="n">cols</span><span class="p">,</span>
+            <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">&quot;Percentage that have Heart Disease&quot;</span>
+    <span class="p">)</span>
+        <span class="n">fig1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="n">URLError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            **This demo requires internet access.**</span>
+
+<span class="sd">            Connection error: %s</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+            <span class="o">%</span> <span class="n">e</span><span class="o">.</span><span class="n">reason</span>
+        <span class="p">)</span></div>
+
+
+
+
+<div class="viewcode-block" id="progress_bar"><a class="viewcode-back" href="../functions.html#functions.progress_bar">[docs]</a><span class="k">def</span> <span class="nf">progress_bar</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param color: The color of the progress bar.</span>
+<span class="sd">    :param value: The value set for the progress bar.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &lt;style&gt;</span>
+<span class="sd">        .stProgress &gt; div &gt; div &gt; div &gt; div {</span>
+<span class="sd">            background-color: %s;</span>
+<span class="sd">        }</span>
+<span class="sd">    &lt;/style&gt;&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">color</span><span class="p">),</span>
+    <span class="n">unsafe_allow_html</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">my_bar</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">progress</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">percent_complete</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="o">*</span><span class="mi">100</span><span class="p">)):</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">my_bar</span><span class="o">.</span><span class="n">progress</span><span class="p">(</span><span class="n">percent_complete</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_form"><a class="viewcode-back" href="../functions.html#functions.create_form">[docs]</a><span class="k">def</span> <span class="nf">create_form</span><span class="p">():</span> <span class="c1">#pragma: no cover</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function creates the form which will be used as the input to our model. Ths user doesn&#39;t need to select all</span>
+<span class="sd">    the features, our model can retrain with subset of the features.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;my_form&#39;</span><span class="p">)</span>
+    
+    <span class="n">bmi</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">number_input</span><span class="p">(</span><span class="s1">&#39;BMI ---- Body Mass Index Weight(kg)/(Height(m)*Height(m))&#39;</span><span class="p">)</span>
+    
+    <span class="n">smoking</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s1">&#39;Smoking ---- Have you smoked at least 100 cigarettes in your entire life?&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;True&#39;</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">))</span>
+    <span class="n">alcohol</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s1">&#39;Alcohol Drinking ---- Heavy drinkers? (adult men having more than 14 drinks per week and adult women having more than 7 drinks per week&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;True&#39;</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">))</span>
+    <span class="n">stroke</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s1">&#39;Stroke ---- (Ever told) (you had) a stroke?&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;True&#39;</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">))</span>
+    <span class="n">walking</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s1">&#39;Difficult Walking ---- Do you have serious difficulty walking or climbing stairs?&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;True&#39;</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">))</span>
+    <span class="n">sex</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s1">&#39;Sex ---- Are you bilogically male or female?&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;Male&#39;</span><span class="p">,</span> <span class="s1">&#39;Female&#39;</span><span class="p">))</span>
+
+    <span class="n">age</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">number_input</span><span class="p">(</span><span class="s1">&#39;Age ---- What is your age?&#39;</span><span class="p">)</span>
+
+    <span class="n">race</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s1">&#39;Race ---- Please specify your ethnicity.&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;White&#39;</span><span class="p">,</span> <span class="s1">&#39;Black&#39;</span><span class="p">,</span> <span class="s1">&#39;Asian&#39;</span><span class="p">,</span> <span class="s1">&#39;American Indian/Alaskan Native&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Other&#39;</span><span class="p">,</span> <span class="s1">&#39;Hispanic&#39;</span><span class="p">))</span>
+
+    <span class="n">diabetic</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s1">&#39;Diabetic ---- (Ever told) (you had) diabetes?&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;True&#39;</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">))</span>
+
+    <span class="n">activity</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s1">&#39;Physical Activity ---- Doing physical activity or exercise during the past 30 days other than regular job?&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;True&#39;</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">))</span>
+
+    <span class="n">health</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s1">&#39;General Health ---- Would you say that in general your health is...&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;Very good&#39;</span><span class="p">,</span> <span class="s1">&#39;Fair&#39;</span><span class="p">,</span> <span class="s1">&#39;Good&#39;</span><span class="p">,</span> <span class="s1">&#39;Poor&#39;</span><span class="p">,</span> <span class="s1">&#39;Excellent&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">sleep</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">number_input</span><span class="p">(</span><span class="s1">&#39;SleepTime (Hours) ---- On average, how many hours of sleep do you get in a 24-hour period?&#39;</span><span class="p">)</span>
+
+    <span class="n">asthma</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s1">&#39;Asthma ---- (Ever told) (you had) asthma?&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;True&#39;</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">))</span>
+
+    <span class="n">kidney</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s1">&#39;Kidney Disease ---- Not including kidney stones, bladder infection or incontinence, were you ever told you had kidney disease?&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;True&#39;</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">))</span>
+
+    <span class="n">skin</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s1">&#39;Skin Cancer ---- (Ever told) (you had) skin cancer?&#39;</span><span class="p">,</span>
+        <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;True&#39;</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">))</span>
+    <span class="n">submit_button</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">form_submit_button</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Submit&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">submit_button</span><span class="p">:</span>
+        <span class="n">user_data</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;HeartDisease&#39;</span>      <span class="p">:</span><span class="s1">&#39;Yes&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;BMI&#39;</span>                <span class="p">:</span><span class="n">bmi</span><span class="p">,</span>
+                    <span class="s1">&#39;Smoking&#39;</span>            <span class="p">:</span><span class="n">smoking</span><span class="p">,</span>
+                    <span class="s1">&#39;AlcoholDrinking&#39;</span>    <span class="p">:</span><span class="n">alcohol</span><span class="p">,</span>
+                    <span class="s1">&#39;Stroke&#39;</span>            <span class="p">:</span><span class="n">stroke</span><span class="p">,</span>
+                    <span class="s1">&#39;DiffWalking&#39;</span>        <span class="p">:</span><span class="n">walking</span><span class="p">,</span>
+                    <span class="s1">&#39;Sex&#39;</span>                <span class="p">:</span><span class="n">sex</span><span class="p">,</span>
+                    <span class="s1">&#39;AgeCategory&#39;</span>        <span class="p">:</span><span class="n">model</span><span class="o">.</span><span class="n">age_tranform</span><span class="p">(</span><span class="n">age</span><span class="p">),</span>
+                    <span class="s1">&#39;Race&#39;</span>                <span class="p">:</span><span class="n">race</span><span class="p">,</span>
+                    <span class="s1">&#39;Diabetic&#39;</span>            <span class="p">:</span><span class="n">diabetic</span><span class="p">,</span>
+                    <span class="s1">&#39;PhysicalActivity&#39;</span>    <span class="p">:</span><span class="n">activity</span><span class="p">,</span>
+                    <span class="s1">&#39;GenHealth&#39;</span>            <span class="p">:</span><span class="n">health</span><span class="p">,</span>
+                    <span class="s1">&#39;SleepTime&#39;</span>            <span class="p">:</span><span class="n">sleep</span><span class="p">,</span>
+                    <span class="s1">&#39;Asthma&#39;</span>            <span class="p">:</span><span class="n">asthma</span><span class="p">,</span>
+                    <span class="s1">&#39;KidneyDisease&#39;</span>        <span class="p">:</span><span class="n">kidney</span><span class="p">,</span>
+                    <span class="s1">&#39;SkinCancer&#39;</span>        <span class="p">:</span><span class="n">skin</span><span class="p">,}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">risk</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">user_data</span><span class="p">)</span>
+            <span class="n">risk</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">risk</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">random</span>
+            <span class="n">risk</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">display_risk</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">risk</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;%&quot;</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s1">&#39;## Your predicted risk is &#39;</span><span class="o">+</span> <span class="n">display_risk</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">risk</span> <span class="o">&lt;</span> <span class="mf">0.2</span><span class="p">:</span>
+            <span class="n">progress_bar</span><span class="p">(</span><span class="s1">&#39;green&#39;</span><span class="p">,</span><span class="n">risk</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">&quot;#### - Consume a healthy diet that emphasizes the intake of vegetables, fruits and nuts.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;#### - Healthy adults who lead a sedentary lifestyle should be encouraged to start with a light exercise intensity. Must maintain weight.&quot;</span><span class="p">)</span>
+        
+        <span class="k">elif</span> <span class="mf">0.2</span> <span class="o">&lt;</span><span class="n">risk</span> <span class="o">&lt;=</span> <span class="mf">0.4</span><span class="p">:</span>
+            <span class="n">progress_bar</span><span class="p">(</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span><span class="n">risk</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">&quot;#### - If you are overweight, achieve and maintain weight-loss.</span><span class="se">\n</span><span class="s2">&quot;</span> 
+        <span class="s2">&quot;#### - Healthy adults all ages of 2.5 to 5h a week of moderate physical activity or 1 to 2.5h per week of intense physical activity.</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="s2">&quot;#### - This includes fast walking, bicycling, or swimming. </span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="s2">&quot;#### - Regularly consume fish.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;#### - Consume a varied well-balanced diet.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="mf">0.4</span> <span class="o">&lt;</span> <span class="n">risk</span> <span class="o">&lt;=</span> <span class="mf">0.6</span><span class="p">:</span>
+            <span class="n">progress_bar</span><span class="p">(</span><span class="s1">&#39;yellow&#39;</span><span class="p">,</span><span class="n">risk</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span>
+        <span class="s2">&quot;#### - Eat a well balanced diet with lot of fruits and vegetables.</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="s2">&quot;#### - Reduced intake of salt in food (&lt;5g/day)</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;#### - 30 to 45 grams of fiber per day</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;#### - Avoid salty and factory processed foods.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;#### - need 3 or more times a week moderate to intense aerobic exercise for 30 minutes.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;#### - Must restrict the usage of tobacco and consumption of alcohol. </span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="s2">&quot;#### - Recommended to do a primary checkup. Should try to control stress.&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="mf">0.6</span> <span class="o">&lt;</span> <span class="n">risk</span> <span class="o">&lt;=</span> <span class="mf">0.8</span><span class="p">:</span>
+            <span class="n">progress_bar</span><span class="p">(</span><span class="s1">&#39;coral&#39;</span><span class="p">,</span><span class="n">risk</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span> 
+            <span class="s2">&quot;#### - 200g of fruit a day (2 to 3 meals per day).</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;#### - 200g vegetables a day (2-3 servings per day).</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;#### - Fish at least 2x per week (1 meal a week blue fish).</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;#### - need 3 or more times a week moderate to intense aerobic exercise for 60 minutes.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;#### - Must also consult with doctor to see if intense physical activities is recommended.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;#### - Highly recommended to visit a clinic and follow medications.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;#### - Must strictly abstain from consumption of tobacco and alcohol. Should monitor blood pressure, cholesterol and diabetes regularly.</span><span class="se">\n</span><span class="s2">&quot;</span> 
+        <span class="s2">&quot;#### - Should include intensive counseling on risk factors.&quot;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">progress_bar</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="n">risk</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">&quot;#### - Must immediately seek medical attention.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="model_explanation"><a class="viewcode-back" href="../functions.html#functions.model_explanation">[docs]</a><span class="k">def</span> <span class="nf">model_explanation</span><span class="p">():</span> 
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function writes text to the website, explaining our model pipeline.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span> <span class="s2">&quot;##### 1. Data Acquisition </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;The heart risk dataset is obtained from  the UCI ML repository. </span><span class="se">\</span>
+<span class="s2">It contains 75 attributes for 303 patients.&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span> <span class="s2">&quot;##### 2. Data Pre-processing </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Cardiovascular disease UCI dataset is first loaded and then data cleaning</span><span class="se">\</span>
+<span class="s2"> and finding missing values was performed on all records. The categorical</span><span class="se">\</span>
+<span class="s2">features are converted to numerical ones to be used in Logistic Regression.&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span> <span class="s2">&quot;##### 3. Feature Selection </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;The input has general patients details like age, gender and also certain medical information.</span><span class="se">\</span>
+<span class="s2"> The medical information are vital attributes predicting heart disease. </span><span class="se">\</span>
+<span class="s2"> The correlation performed on all 13 attributes with the target value to select the</span><span class="se">\</span>
+<span class="s2"> features with high and positive correlation feature.&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span> <span class="s2">&quot;##### 4. Classification model </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;To predict the heart disease logistic regression ML model is used, firstly the LR  </span><span class="se">\</span>
+<span class="s2">model are trained after splitting condition and tested with test data for prediction to get the best accuracy and to find the models behavior. </span><span class="se">\</span>
+<span class="s2">The LR is the supervised ML binary classification algorithm widely used in most application.  It works on categorical dependent variable the result can be discrete or binary categorical variable 0 or 1. The sigmoid function is used as a cost function. Sigmoid function maps a predicted real value to a probabilistic value.&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span> <span class="s2">&quot;##### 5. Risk prediction </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;To predict the risk, the patient details are fed to the LR model. The LR model gives </span><span class="se">\</span>
+<span class="s2">probabilistic values between 0 and 1, which can be scaled to percentage. The results are further split into 5 sub-categories to provide recommendations to the patients based on their information.&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Group 1.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
