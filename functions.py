@@ -15,14 +15,14 @@ class Toc:
     it will be used for the sidebar.
     """
 
-    def __init__(self):
+    def __init__(self): 
         """
         Initialize function, it is used to intialize class fields
         """
         self._items = []
         self._placeholder = None
     
-    def title(self, text):
+    def title(self, text): 
         """
         This function is used to display the title
         :param text: The text for the title.
@@ -31,7 +31,7 @@ class Toc:
         assert isinstance(text, str)
         self._markdown(text, "h1")
 
-    def header(self, text):
+    def header(self, text): 
         """
         This function is used to display the header.
         :param text: The text for the header.
@@ -40,7 +40,7 @@ class Toc:
         assert isinstance(text, str)
         self._markdown(text, "h2", " " * 2)
 
-    def subheader(self, text):
+    def subheader(self, text): 
         """
         This function is used to display the subheader.
         :param text: The text for the subheader.
@@ -49,7 +49,7 @@ class Toc:
         assert isinstance(text, str)
         self._markdown(text, "h3", " " * 4)
 
-    def placeholder(self, sidebar=False):
+    def placeholder(self, sidebar=False): 
         """
         :param sidebar: If sidebar = False, no side bar in Table of Contents. If sidebar = True, adds empty sidebar
         to Table of Contents, temporarily.
@@ -58,14 +58,14 @@ class Toc:
         assert isinstance(sidebar, Boolean)
         self._placeholder = st.sidebar.empty() if sidebar else st.empty()
 
-    def generate(self):
+    def generate(self): 
         """
         This function is used to place placeholders for inputs if required
         """
         if self._placeholder:
             self._placeholder.markdown("\n".join(self._items), unsafe_allow_html=True)
     
-    def _markdown(self, text, level, space=""):
+    def _markdown(self, text, level, space=""): 
         """
         This function is used to display items of markdown
         :param text: The text for the markdown
@@ -81,7 +81,7 @@ class Toc:
         st.markdown(f"<{level} id='{key}'>{text}</{level}>", unsafe_allow_html=True)
         self._items.append(f"{space}* <a href='#{key}'>{text}</a>")
 
-def sidebar(toc):
+def sidebar(toc): 
     """
     This function is used to display the sidebar
     :param toc: The TOC class.
@@ -104,7 +104,7 @@ def audio(file_name):
     audio_1 = audio_file_1.read()
     st.audio(audio_1, format='audio/mp3')
 
-def death_causes_line_plot():
+def death_causes_line_plot(): 
     """
     The function embeds the death causes line plot (data file: data/death_causes.csv) to where every, you
     call it in the source file.
@@ -124,7 +124,7 @@ def death_causes_line_plot():
     legend_title="variables")
     st.write(fig)
 
-def chi_square_bar_plot():
+def chi_square_bar_plot(): 
     """
     The function embeds the chi-square bar plot (data file: data/processed_data.csv) to where every, you
     call it in the source file.
@@ -150,25 +150,10 @@ def chi_square_bar_plot():
     )
     st.plotly_chart(fig)
 
-def line_plot_2():
-    """Draw the line plot"""
-    df = pd.read_csv('data/death_causes.csv')
-    df = df.set_index('Year')
-    fig = px.line(df[['Heart disease', 'Cancer ', 'Unintentional injuries', 'CLRD', 'Stroke', "Alzheimer's disease", 'Diabetes']])
 
 
-    fig['data'][0]['line']['color'] = "#FE0101"
-    fig['data'][1]['line']['color'] = "#7FB5FF"
-    fig.update_layout(
-    title="Death Causes",
-    title_x=0.45,
-    xaxis_title="Year",
-    yaxis_title="Count (thousands)",
-    legend_title="variables")
-    st.write(fig)
 
-
-def dynamic_bar_plot():
+def dynamic_bar_plot(): 
     """
     The function embeds the bar plot (data file: data/heart_2020_cleaned.csv) of the various features to Heart Disease.
     """
@@ -233,27 +218,7 @@ def dynamic_bar_plot():
         )
 
 
-def bar2():
-    """Draw the bar plot"""
-    x = [10.43386255,  9.65029749,  9.38618916,  9.31959066,  8.77858069,
-        7.83404486,  7.68797564,  7.1098964 ,  6.71319393,  6.57759726,
-        6.16467774,  5.72584813,  4.86625959,  3.72561456,  1.86289353]
-    y = ['AgeCategory', 'Diabetic', 'Stroke', 'DiffWalking',
-       'KidneyDisease', 'SkinCancer', 'Smoking', 'BMI', 'Sex',
-       'PhysicalActivity', 'Asthma', 'AlcoholDrinking', 'Race',
-       'GenHealth', 'SleepTime']
-    fig = go.Figure(go.Bar(
-            x=x,
-            y=y,
-            orientation='h'))
-    fig.update_layout(
-           
-            title="Effect of each Input using Chi-Square Test",
-            title_x = 0.45,
-            xaxis_title="log(Chi-Square Test Statistic) ",
-            yaxis_title="Features"
-    )
-    st.plotly_chart(fig)
+
 
 def progress_bar(color, value):
     """
@@ -280,7 +245,7 @@ def progress_bar(color, value):
         my_bar.progress(percent_complete + 1)
 
 
-def create_form():
+def create_form(): #pragma: no cover
     """
     This function creates the form which will be used as the input to our model. Ths user doesn't need to select all
     the features, our model can retrain with subset of the features.
@@ -406,7 +371,7 @@ def create_form():
             progress_bar('red',risk)
             st.markdown("#### - Must immediately seek medical attention.")
 
-def model_explanation():
+def model_explanation(): 
     """
     This function writes text to the website, explaining our model pipeline.
     """

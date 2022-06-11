@@ -23,45 +23,56 @@ def test_age_transform():
     assert m.age_tranform(31) == '30-34'
     assert m.age_tranform(26) == '25-29'
 
-test_list = [   ("False",33,"False","False","False","True","Male","80 or older","White","True","True","Poor",5,"False","True","True"),
-                ("False",0,"True","False","False","True","Male","80 or older","White","True","True","Poor",12,"False","True","True")
-                
-                
-            ]
 
-@pytest.mark.parametrize('HeartDisease, BMI, Smoking, AlcoholDrinking, Stroke, \
-                            DiffWalking, Sex, AgeCategory, Race, Diabetic, \
-                            PhysicalActivity, GenHealth, SleepTime, Asthma, \
-                            KidneyDisease, SkinCancer',
-                            test_list
-                            )
-def test_model(HeartDisease, BMI, Smoking, AlcoholDrinking, Stroke, \
-                            DiffWalking, Sex, AgeCategory, Race, Diabetic, \
-                            PhysicalActivity, GenHealth, SleepTime, Asthma, \
-                            KidneyDisease, SkinCancer):
+def test_model():
     '''
-    Method used to test the functions in model
+    Method used to test the model function
     '''
     user_data = {
-                "HeartDisease":HeartDisease,
-                "BMI":BMI,
-                "Smoking":Smoking,
-                "AlcoholDrinking":AlcoholDrinking,
-                "Stroke":Stroke,
-                "DiffWalking":DiffWalking,
-                "Sex":Sex,
-                "AgeCategory":AgeCategory,
-                "Race":Race,
-                "Diabetic":Diabetic,
-                "PhysicalActivity":PhysicalActivity,
-                "GenHealth":GenHealth,
-                "SleepTime":SleepTime,
-                "Asthma":Asthma,
-                "KidneyDisease":KidneyDisease,
-                "SkinCancer":SkinCancer,
+                "HeartDisease":"False",
+                "BMI":33,
+                "Smoking":"False",
+                "AlcoholDrinking":"False",
+                "Stroke":"False",
+                "DiffWalking":"True",
+                "Sex":"Male",
+                "AgeCategory":"80 or older",
+                "Race":"White",
+                "Diabetic":"True",
+                "PhysicalActivity":"True",
+                "GenHealth":"Poor",
+                "SleepTime":5,
+                "Asthma":"False",
+                "KidneyDisease":"True",
+                "SkinCancer":"True",
                 }
-    assert 0 <= m.model(user_data)[0] <= 1.
-    assert 0 <= m.model(user_data)[1] <= 1.
+    assert m.model(user_data)[0] == 0.9141
+    # assert m.model(user_data)[1] == 0.3551001411628071
+
+def test_model_with_null():
+    '''
+    Method used to test the model function with null value
+    '''
+    user_data = {
+                "HeartDisease":"False",
+                "BMI":np.nan,
+                "Smoking":"False",
+                "AlcoholDrinking":"False",
+                "Stroke":"False",
+                "DiffWalking":"True",
+                "Sex":"Male",
+                "AgeCategory":"80 or older",
+                "Race":"White",
+                "Diabetic":"True",
+                "PhysicalActivity":"True",
+                "GenHealth":"Poor",
+                "SleepTime":5,
+                "Asthma":"False",
+                "KidneyDisease":"True",
+                "SkinCancer":"True",
+                }
+    assert m.model(user_data)[0] == 0.9143826513860441
+    assert m.model(user_data)[1] > 0.362846179685 - 0.05 and m.model(user_data)[1] < 0.362846179685 + 0.05
 
 
 @patch('streamlit.audio')
@@ -86,36 +97,76 @@ def test_line_plot_2(placeholder):
     '''
     Function used to test the plotting of line function
     '''
-    f.line_plot_2()
+    f.death_causes_line_plot()
 
 @patch('streamlit.plotly_chart')
 def test_bar2(placeholder):
     '''
     Function used to test plotting the bar function
     '''
-    f.bar2()
+    f.chi_square_bar_plot()
 
-'''
-still need functions to test 
-bar_plot()
-progress_bar(color, value)
-create_form()
-model_explanation()
+def test_Toc():
+    '''
+    Method used to test the Toc class
+    '''
+    toc = f.Toc()
+    toc.title('test')
+    toc.header('test')
+    toc.subheader('test')
+    toc.placeholder(False)
+    toc.generate()
 
-'''
+@patch('streamlit.write')
+def test_death_causes_line_plot(placeholder):
+    '''
+    Method used to test the death causes line plot function
+    '''
+    f.death_causes_line_plot()
 
-# @patch('streamlit.columns.write')
-# def test_bar_plot(placeholder):
-#     f.bar_plot()
+@patch('streamlit.plotly_chart')
+def test_chi_square_bar_plot(placeholder):
+    '''
+    Method used to test the chi square bar plot function
+    '''
+    f.chi_square_bar_plot()
 
-# @patch('streamlit.progress')
-# def test_progress_bar(placeholder):
-#     f.progress_bar('red', 50)
+def test_dynamic_bar_plot():
+    '''
+    Method used to test the dynamic bar plot function
+    '''
+    f.dynamic_bar_plot()
+
+def test_create_form():    
+    '''
+    Method used to test the create form function
+    '''
+    f.create_form()
+
+def test_model_explanation():
+    '''
+    Method used to test the model explanation function
+    '''
+    f.model_explanation()
+
+def test_progress_bar():
+    '''
+    Method used to test the progress bar function
+    '''
+    f.progress_bar('red', 0.3)
 
 
 test_age_transform()
-# test_model()
+test_model()
+test_model_with_null()
 test_audio()
 test_sidebar()
 test_line_plot_2()
 test_bar2()
+test_Toc()
+test_death_causes_line_plot()
+test_chi_square_bar_plot()
+test_dynamic_bar_plot()
+test_progress_bar()
+test_create_form()
+test_model_explanation()

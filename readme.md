@@ -14,11 +14,18 @@ Our application is built on streamlit with customizable modules including plotly
 
 ## Requirement
 
+- Coverage 6.4.1
+- Numpy 1.22.4
 - Python 3.8
 - Pandas 1.4.2
+- Plotly 5.8.2
 - Streamlit 1.10
 - Sklearn 1.1.1
-
+  
 ## Test Suite
 
 Below is the coverage report for our code repository.
+
+![alt text](/readme_images/coverage.png "Title")
+
+To generate the coverage report first run `coverage run test_model.py` then run `coverage report -m `

@@ -9,7 +9,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-def model(user_data):
+def model(user_data): 
     """
     The functions runs the user data to a LogisticRegression model. The user doesn't need to upload all the user data,
     this function will dynamically train a new model with the given user data.
@@ -120,25 +120,4 @@ def age_tranform(age):
     return age
 
 
-# if __name__ == '__main__':
-#     user_data = {
-#         "HeartDisease": "False",
-#         "BMI": 33,
-#         "Smoking": "False",
-#         "AlcoholDrinking": "False",
-#         "Stroke": "False",
-#         "DiffWalking": "True",
-#         "Sex": "Male",
-#         "AgeCategory": "80 or older",
-#         "Race": "White",
-#         "Diabetic": "True",
-#         "PhysicalActivity": "True",
-#         "GenHealth": "Poor",
-#         "SleepTime": 5,
-#         "Asthma": "False",
-#         "KidneyDisease": "True",
-#         "SkinCancer": "True",
-#     }
-#     score, prob = model(user_data)
-#     model(user_data)
-#     print(score, prob)
+
