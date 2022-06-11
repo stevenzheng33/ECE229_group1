@@ -28,7 +28,7 @@ st.markdown("Heart disease is the leading cause of death and \
                     has been recognized as “American Heart Month” since 1963.",unsafe_allow_html=True)
 
 
-audio('audio/speech_1.mp3')
+# audio('audio/speech_1.mp3')
 toc.subheader("Top 7 Causes of Deaths in US")
 
 

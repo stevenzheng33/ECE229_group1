@@ -102,7 +102,7 @@ def audio(file_name):
     assert isinstance(file_name, str)
     audio_file_1 = open(file_name, 'rb')
     audio_1 = audio_file_1.read()
-    st.audio(audio_1, format='audio/mp3')
+    st.audio(audio_1, format='mp3')
 
 def death_causes_line_plot(): 
     """
