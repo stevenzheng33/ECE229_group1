@@ -18,7 +18,7 @@ def model(user_data):
     :return: The score of possible heart disease.
     """
 
-    assert isinstance(user_data, pd.DataFrame)
+    assert isinstance(user_data, dict)
     # pre-processing
     user_data = pd.Series(user_data, index=["HeartDisease", "BMI", "Smoking",
                                             "AlcoholDrinking",
@@ -120,25 +120,25 @@ def age_tranform(age):
     return age
 
 
-if __name__ == '__main__':
-    user_data = {
-        "HeartDisease": "False",
-        "BMI": 33,
-        "Smoking": "False",
-        "AlcoholDrinking": "False",
-        "Stroke": "False",
-        "DiffWalking": "True",
-        "Sex": "Male",
-        "AgeCategory": "80 or older",
-        "Race": "White",
-        "Diabetic": "True",
-        "PhysicalActivity": "True",
-        "GenHealth": "Poor",
-        "SleepTime": 5,
-        "Asthma": "False",
-        "KidneyDisease": "True",
-        "SkinCancer": "True",
-    }
-    score, prob = model(user_data)
-    model(user_data)
-    print(score, prob)
+# if __name__ == '__main__':
+#     user_data = {
+#         "HeartDisease": "False",
+#         "BMI": 33,
+#         "Smoking": "False",
+#         "AlcoholDrinking": "False",
+#         "Stroke": "False",
+#         "DiffWalking": "True",
+#         "Sex": "Male",
+#         "AgeCategory": "80 or older",
+#         "Race": "White",
+#         "Diabetic": "True",
+#         "PhysicalActivity": "True",
+#         "GenHealth": "Poor",
+#         "SleepTime": 5,
+#         "Asthma": "False",
+#         "KidneyDisease": "True",
+#         "SkinCancer": "True",
+#     }
+#     score, prob = model(user_data)
+#     model(user_data)
+#     print(score, prob)

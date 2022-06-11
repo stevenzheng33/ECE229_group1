@@ -111,3 +111,11 @@ model_explanation()
 # @patch('streamlit.progress')
 # def test_progress_bar(placeholder):
 #     f.progress_bar('red', 50)
+
+
+test_age_transform()
+# test_model()
+test_audio()
+test_sidebar()
+test_line_plot_2()
+test_bar2()
