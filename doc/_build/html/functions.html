@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>functions module &mdash; Cardio Care  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Cardio Care
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">functions module</a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Cardio Care</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>functions module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/functions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-functions">
+<span id="functions-module"></span><h1>functions module<a class="headerlink" href="#module-functions" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="functions.Toc">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">functions.</span></span><span class="sig-name descname"><span class="pre">Toc</span></span><a class="reference internal" href="_modules/functions.html#Toc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.Toc" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is used for Streamlit to build the Table of Contents. For this project
+it will be used for the sidebar.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="functions.Toc.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions.html#Toc.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.Toc.generate" title="Permalink to this definition"></a></dt>
+<dd><p>This function is used to place placeholders for inputs if required</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="functions.Toc.header">
+<span class="sig-name descname"><span class="pre">header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions.html#Toc.header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.Toc.header" title="Permalink to this definition"></a></dt>
+<dd><p>This function is used to display the header.
+:param text: The text for the header.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="functions.Toc.placeholder">
+<span class="sig-name descname"><span class="pre">placeholder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sidebar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions.html#Toc.placeholder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.Toc.placeholder" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sidebar</strong> – If sidebar = False, no side bar in Table of Contents. If sidebar = True, adds empty sidebar</p>
+</dd>
+</dl>
+<p>to Table of Contents, temporarily.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="functions.Toc.subheader">
+<span class="sig-name descname"><span class="pre">subheader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions.html#Toc.subheader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.Toc.subheader" title="Permalink to this definition"></a></dt>
+<dd><p>This function is used to display the subheader.
+:param text: The text for the subheader.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="functions.Toc.title">
+<span class="sig-name descname"><span class="pre">title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions.html#Toc.title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.Toc.title" title="Permalink to this definition"></a></dt>
+<dd><p>This function is used to display the title
+:param text: The text for the title.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functions.audio">
+<span class="sig-prename descclassname"><span class="pre">functions.</span></span><span class="sig-name descname"><span class="pre">audio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions.html#audio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.audio" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_name</strong> – The file path for the audio. This function will automatically embed the audio widget where every, you</p>
+</dd>
+</dl>
+<p>call it in the source file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functions.chi_square_bar_plot">
+<span class="sig-prename descclassname"><span class="pre">functions.</span></span><span class="sig-name descname"><span class="pre">chi_square_bar_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions.html#chi_square_bar_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.chi_square_bar_plot" title="Permalink to this definition"></a></dt>
+<dd><p>The function embeds the chi-square bar plot (data file: data/processed_data.csv) to where every, you
+call it in the source file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functions.create_form">
+<span class="sig-prename descclassname"><span class="pre">functions.</span></span><span class="sig-name descname"><span class="pre">create_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions.html#create_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.create_form" title="Permalink to this definition"></a></dt>
+<dd><p>This function creates the form which will be used as the input to our model. Ths user doesn’t need to select all
+the features, our model can retrain with subset of the features.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functions.death_causes_line_plot">
+<span class="sig-prename descclassname"><span class="pre">functions.</span></span><span class="sig-name descname"><span class="pre">death_causes_line_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions.html#death_causes_line_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.death_causes_line_plot" title="Permalink to this definition"></a></dt>
+<dd><p>The function embeds the death causes line plot (data file: data/death_causes.csv) to where every, you
+call it in the source file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functions.dynamic_bar_plot">
+<span class="sig-prename descclassname"><span class="pre">functions.</span></span><span class="sig-name descname"><span class="pre">dynamic_bar_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions.html#dynamic_bar_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.dynamic_bar_plot" title="Permalink to this definition"></a></dt>
+<dd><p>The function embeds the bar plot (data file: data/heart_2020_cleaned.csv) of the various features to Heart Disease.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functions.model_explanation">
+<span class="sig-prename descclassname"><span class="pre">functions.</span></span><span class="sig-name descname"><span class="pre">model_explanation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions.html#model_explanation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.model_explanation" title="Permalink to this definition"></a></dt>
+<dd><p>This function writes text to the website, explaining our model pipeline.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functions.progress_bar">
+<span class="sig-prename descclassname"><span class="pre">functions.</span></span><span class="sig-name descname"><span class="pre">progress_bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions.html#progress_bar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.progress_bar" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>color</strong> – The color of the progress bar.</p></li>
+<li><p><strong>value</strong> – The value set for the progress bar.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="functions.sidebar">
+<span class="sig-prename descclassname"><span class="pre">functions.</span></span><span class="sig-name descname"><span class="pre">sidebar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">toc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functions.html#sidebar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#functions.sidebar" title="Permalink to this definition"></a></dt>
+<dd><p>This function is used to display the sidebar
+:param toc: The TOC class.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Group 1.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
