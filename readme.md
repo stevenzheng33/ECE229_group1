@@ -12,6 +12,9 @@ Our application is built on streamlit with customizable modules including plotly
 We use route 53 as a DNS service that leads to a ELB that directs traffic into out web EC2 auto scaling group. AWS RDS is used to store user data with permission and Amazon Polly is used to transribe the texts to audio. Our heavy workload is handed off to computational instances through Amazon SQS.
 ![alt text](/readme_images/aws_design.png "Title")
 
+
+
+## Folder Structure
 ``` bash
 .
 ├── audio                             # Audio File
