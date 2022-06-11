@@ -12,6 +12,8 @@ Our application is built on streamlit with customizable modules including plotly
 We use route 53 as a DNS service that leads to a ELB that directs traffic into out web EC2 auto scaling group. AWS RDS is used to store user data with permission and Amazon Polly is used to transribe the texts to audio. Our heavy workload is handed off to computational instances through Amazon SQS.
 ![alt text](/readme_images/aws_design.png "Title")
 
+## Documentation
+We used sphinx to build a fully functional documentation. In the root directory run `open docs/index.html` to view the documentation webpage. Choose between the function and model module to view the description for every piece of our project.
 
 
 ## Folder Structure
@@ -47,6 +49,9 @@ We use route 53 as a DNS service that leads to a ELB that directs traffic into o
 - Plotly 5.8.2
 - Streamlit 1.10
 - Sklearn 1.1.1
+
+## View our Application
+You can either access our hosted app using the link in the beginning or run `streamlit run source.py` in the root directory.
   
 ## Test Suite
 
